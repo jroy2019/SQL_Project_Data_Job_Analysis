@@ -2,8 +2,8 @@
 Question 2: What skills are recquired for top-paying data analyst jobs?
 - Use the top 10 highest-paying Data Analyst roles identified in Question 1.
 - Add specific skills recquired for those roles
-- Why? It provides a detailed look at which skills are in demand for high-paying Dat Analyst positions,
-    helping aspiring Analysts to understand which skills to devolop (if they want a lucrative)
+- Why? It provides a detailed look at which skills are in demand for high-paying Data Analyst positions,
+    helping Data Analysts to understand which skills to devolop to increase earning potential
 */
 
 -- identify top 10 highest paying remote jobs
@@ -73,7 +73,7 @@ ORDER BY
     skill_count DESC;
 
 /*
-Here's the breakdown of the most in-demand skills for data analysis in 2023, based on remote job postings:
+Here's the breakdown of the most in-demand skills for top-paying data analysis in 2023, based on remote job postings:
 SQL is the leading skill with a count of 8/10 top-paying data analyst jobs recquiring it.
 Python follows closely with a count of 7/10.
 Tableau is also highly sought after, with 6/10 jobs listing it as a requirement
