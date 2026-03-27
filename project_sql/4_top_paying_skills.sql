@@ -32,7 +32,7 @@ ML frameworks (PyTorch, TensorFlow) cluster around $120–127k — high supply k
 
 Key-takeaway: For Data Analysts, specializing in niche/legacy skills or engineering-adjacent tools can lead to higher salaries. (Personally, I'll be learning Kafka)
 
--- 25 top paying skills
+25 top paying skills
 [
   {
     "skill": "svn",

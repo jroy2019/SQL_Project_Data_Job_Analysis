@@ -79,7 +79,7 @@ Python follows closely with a count of 7/10.
 Tableau is also highly sought after, with 6/10 jobs listing it as a requirement
 Other notable skills include R, Snowflake, Pandas and Excel which have varying levels of demand
 
--- top-paying jobs and associated skills
+Top-paying jobs and associated skills
 [
   {
     "job_id": 552322,
@@ -545,7 +545,7 @@ Other notable skills include R, Snowflake, Pandas and Excel which have varying l
   }
 ]
 
--- skill count for top-paying jobs
+Skill count for top-paying jobs
 [
   {
     "skills": "sql",

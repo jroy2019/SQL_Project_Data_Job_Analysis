@@ -35,7 +35,7 @@ Data visualisation tools like Tableau (46,554 counts) and Power BI (39,468 count
 PowerPoint and Word are also in the top 10, likely because of the need to present
 Business specific tools like sas (28,068 counts) and sap (11,297 counts) are also in demand.
 
--- skill count top 10 data analyst skills
+Skill count top 10 data analyst skills
 [
   {
     "skill": "sql",
