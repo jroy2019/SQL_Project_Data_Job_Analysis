@@ -1,6 +1,6 @@
 # Introduction
 Dive into the data job market! <br> 
-This project explores **top-paying** jobs and associated skills, **in-demand** skills and skills which are **both** in high-demand and high salary in data analytics 
+This project explores top-paying Data Analyst jobs and their associated skills, in-demand skills for Data Analysts aswell as,skills which are both high-demand and high salary in data analytics 
 
 SQL queries? Check them out here: [project_sql_folder](/project_sql/)
 
@@ -23,6 +23,7 @@ For this project, I utlised a variety of tools:
 - **PostgreSQL** was my chosen database management system.
 - **VsCode** My go to for interacting with the database and writing SQL queries.
 - **Git and Github** was essential for version control and sharing my SQL scripts and findings.
+-- **Claude** was my AI assistant for generating visualisations base on my SQL queries.
 
 # The Analysis
 Each query for this project aimed at investigating a key ascpect of the 2023 data analyst job market. Here's how approach each question:
@@ -55,7 +56,7 @@ LIMIT 10;
 Here is the breakdown for highest paying Data Analyst jobs in Australia from 2023: <br>
 **Limited data analyst roles:** Only 4 recorded Data Analyst roles in Australia with annual salalary details. <br>
 **Wide Salary Range** Data Analyst roles in Australia ranges between $135,0000 - $57,500. <br>
-**Lack of Aussie employers** The Data Analyst roles present in dataset are offered by a variety of four companies:Doordash, Enatin and Sodexo. Half of which are not Australian businesses. The dataset is clearly missing Australian business like Commonwealth Bank and clearly not representative (Don't stress Australian data nerds) <br>
+**Lack of Aussie employers** The Data Analyst roles present in dataset are offered by a four different companies: Doordash, Perigon Group Enatin and Sodexo. Half of which are not Australian businesses. The dataset is clearly missing Australian business like Commonwealth Bank and clearly not representative (Don't stress Australian data nerds) <br>
 
 ### 2. Skills required for top-paying Data Analyst jobs 
 I identified the top-paying skills associated with the top ten highest paying-data analyst jobs by sub-querying the top-paying jobs from Question 1 and then joining with the skills table to find the relevant skills for those roles.
@@ -90,7 +91,6 @@ ORDER BY
 ```
 ### Results
 <img src="project_sql/results/top_paying_skills.png" alt='Top Paying Jobs Skills'>
-
 Here is a breakdown of most prominent skills in demand for top-paying data analyst jobs: <br>
 **SQL** is the most in-demand skill for top-paying data analyst jobs, appearing in 80% of the top-paying roles. <br>
 **Programming Languages** is very popular, with **Python** being the second most in-demand skill, appearing in 60% of the top-paying roles and **R** appearing in 40% of the top-paying roles. <br>
@@ -130,6 +130,71 @@ Here is a breakdown of the most in-demand skills across all data analyst roles: 
 - **Visualisation tools** are highly sought after — **Tableau** (46,554) and **Power BI** (39,468)
 - **Business tools** like **SAS** (28,068) and **SAP** (11,297) round out the top 10, alongside **PowerPoint** and **Word** for reporting and presentation
 
-# What I Learned
+## 4. Which skills are associated with higher salaries?
+I determined the average salary for each skill for a Data Analyst by joining the skills and job postings tables, filtering for Data Analyst roles with salaries, and then averaging yearly salaries for each skill.
+```sql
+SELECT
+    skills_dim.skills AS skill,
+    ROUND(AVG(job_postings_fact.salary_year_avg),2) AS avg_salary
+FROM 
+    skills_job_dim
+LEFT JOIN 
+    job_postings_fact ON skills_job_dim.job_id = job_postings_fact.job_id
+LEFT JOIN
+    skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    job_postings_fact.job_title_short = 'Data Analyst' AND
+    job_postings_fact.salary_year_avg IS NOT NULL -- SQL AVg automatically ignores NULL values, just making it explicit
+GROUP BY
+    skill
+ORDER BY
+    avg_salary DESC
+LIMIT 25;
+```
+### Results
+<img src="project_sql/results/top25_highest_payings_skills.png" alt='Top 25 Highest Paying Skills'>
 
+
+Here is a breakdown of the 25top-paying skills for Data Analysts:
+**Niche/legacy skills:** SVN and Solidity dominate the top two spots. Scarcity is the driver - fewer analysts have these skills, so salaries reflect the premium on rarity. <br>
+**Infrastructure/DevOps:** Tools like Terraform, Kafka, and Ansible consistently outpay pure data analysis skills. Engineering-adjacent analysts command higher salaries. <br>
+**ML frameworks:** PyTorch and TensorFlow cluster around $120–127k. High supply tempers salaries despite the hype, though they still sit above traditional data analysis skills.
+
+## 5. What is the optimal skill to learn based on demand and salary?
+I investigated optimal skills to learn for Data Analysts by determining skills which are both in high demand and associated with higher salaries. Similar to Question 4, I joined the skills and job postings tables, filtered for Data Analyst roles with salaries, and then calculated both the average salary and demand (count of job postings) for each skill. 
+```sql
+SELECT 
+    skills_dim.skill_id,
+    skills_dim.skills AS skill,
+    ROUND(AVG(job_postings_fact.salary_year_avg), 2) AS avg_salary,
+    COUNT(*) AS number_of_postings
+FROM
+    skills_job_dim
+INNER JOIN job_postings_fact ON skills_job_dim.job_id = job_postings_fact.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    job_postings_fact.job_title_short = 'Data Analyst' AND
+    job_postings_fact.salary_year_avg IS NOT NULL
+GROUP BY
+    skills_dim.skill_id,
+    skills_dim.skills       
+ORDER BY
+    number_of_postings DESC,
+    avg_salary DESC
+LIMIT 10;
+```
+### Results
+<img src="project_sql/results/optimal_skills_scatter.png" alt='Optimal Skills to Learn'>
+
+Here is a breakdown of the optimal skills to learn for Data Analysts based on demand and salary: <br>
+**SQL:** is the clear winner, dominating demand with 3,083 job postings and a solid $96k average salary. <br>
+**Programming languages:** offers the best return on investment. Python and R both sit among the highest paying at $101k and $98k respectively, with strong demand to match. <br>
+**Visualization Tools:** like Tableau and Power BI are widely requested but offer more modest salaries in the $92–98k range. <br>
+**Office tools** such as Excel and PowerPoint see high demand, though they sit at the lower end of the salary range between $83–88k.
+# What I Learned
+Throughout this project, I turbocharged my SQL toolkit with advanced techniques:
+
+- **Complex Query Crafting:** Mastered the art of merging multiple tables, leveraging subqueries and CTEs to extract complex insights from the data, and using Window Functions to practise calculating running totals and moving averages. See [Window Functions SQL Script](advance_problems/7_window_functions.sql) for examples of my window function queries. <br>
+- **Data Aggregation:** Got comfortabke with GROUP BY and aggregate functions like COUNT() and AVG() to summarise data and extract meaningful insights.<br>
+- **Analytical Thinking:** Leveled up my data driven problem solving skills, turning questions into structured and insightful SQL queries.
 # Conclusions
