@@ -23,7 +23,7 @@ For this project, I utlised a variety of tools:
 - **PostgreSQL** was my chosen database management system.
 - **VsCode** My go to for interacting with the database and writing SQL queries.
 - **Git and Github** was essential for version control and sharing my SQL scripts and findings.
--- **Claude** was my AI assistant for generating visualisations base on my SQL queries.
+- **Claude** was my AI assistant for generating visualisations base on my SQL queries.
 
 # The Analysis
 Each query for this project aimed at investigating a key ascpect of the 2023 data analyst job market. Here's how approach each question:
